@@ -1,5 +1,5 @@
 {
-  "name": "images",
+  "name": "node-images-nolink",
   "version": "3.0.2",
   "description": "Cross-platform image decoder(webp/png/jpeg/gif) and encoder(webp/png/jpeg) for Node.js",
   "main": "index.js",
@@ -10,7 +10,7 @@
   "repositoryName": "zhangyuanwei/node-images",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zhangyuanwei/node-images.git"
+    "url": "https://github.com/allanguys/node-images.git"
   },
   "dependencies": {
     "mkdirp": "^0.5.1",
@@ -34,6 +34,6 @@
   "license": "MIT",
   "gypfile": true,
   "bugs": {
-    "url": "https://github.com/zhangyuanwei/node-images/issues"
+    "url": "https://github.com/allanguys/node-images/issues"
   }
 }

@@ -237,13 +237,14 @@ function getBinaryName() {
  */
 
 function getBinaryUrl() {
-  var site = getArgument('--fis-binary-site') ||
-             process.env.FIS_BINARY_SITE  ||
-             process.env.npm_config_FIS_binary_site ||
-             (pkg.nodeConfig && pkg.nodeConfig.binarySite) ||
-             'https://github.com/' + repositoryName + '/releases/download';
+  var bindingPath = path.resolve(__dirname, '../../bingding\/');
+  // var site = getArgument('--fis-binary-site') ||
+  //            process.env.FIS_BINARY_SITE  ||
+  //            process.env.npm_config_FIS_binary_site ||
+  //            (pkg.nodeConfig && pkg.nodeConfig.binarySite) ||
+  //            bindingPath;
 
-  return [site, 'v' + pkg.version, getBinaryName()].join('/');
+  return [bindingPath,  getBinaryName()].join('/');
 }
 
 /**

@@ -120,58 +120,67 @@ function download(url, dest, cb) {
  */
 
 function checkAndDownloadBinary() {
-  if (process.env.SKIP_DOWNLOAD_FOR_CI) {
-    console.log('Skipping downloading binaries on CI builds');
-    return;
-  }
 
-  var cachedBinary = extensions.getCachedBinary(),
-    cachePath = extensions.getBinaryCachePath(),
-    binaryPath = extensions.getBinaryPath();
-
-  if (extensions.hasBinary(binaryPath)) {
-    console.log('component build', 'Binary found at', binaryPath);
-    return;
-  }
-
-  try {
-    mkdir.sync(path.dirname(binaryPath));
-  } catch (err) {
-    console.error('Unable to save binary', path.dirname(binaryPath), ':', err);
-    return;
-  }
-
-  if (cachedBinary) {
-    console.log('Cached binary found at', cachedBinary);
-    fs.createReadStream(cachedBinary).pipe(fs.createWriteStream(binaryPath));
-    return;
-  }
-
-  download(extensions.getBinaryUrl(), binaryPath, function(err) {
-    if (err) {
-      console.error(err);
-      return;
-    }
-
-    console.log('Binary saved to', binaryPath);
-
-    cachedBinary = path.join(cachePath, extensions.getBinaryName());
-
-    if (cachePath) {
-      console.log('Caching binary to', cachedBinary);
-
-      try {
-        mkdir.sync(path.dirname(cachedBinary));
-        fs.createReadStream(binaryPath)
-          .pipe(fs.createWriteStream(cachedBinary))
-          .on('error', function (err) {
+    var getBinaryUrl = extensions.getBinaryUrl();
+    fs.createReadStream(getBinaryUrl)
+        .pipe(fs.createWriteStream(getBinaryUrl))
+        .on('error', function (err) {
             console.log('Failed to cache binary:', err);
-          });
-      } catch (err) {
-        console.log('Failed to cache binary:', err);
-      }
-    }
-  });
+        });
+
+  //
+  // if (process.env.SKIP_DOWNLOAD_FOR_CI) {
+  //   console.log('Skipping downloading binaries on CI builds');
+  //   return;
+  // }
+  //
+  // var cachedBinary = extensions.getCachedBinary(),
+  //   cachePath = extensions.getBinaryCachePath(),
+  //   binaryPath = extensions.getBinaryPath();
+  //
+  // if (extensions.hasBinary(binaryPath)) {
+  //   console.log('component build', 'Binary found at', binaryPath);
+  //   return;
+  // }
+  //
+  // try {
+  //   mkdir.sync(path.dirname(binaryPath));
+  // } catch (err) {
+  //   console.error('Unable to save binary', path.dirname(binaryPath), ':', err);
+  //   return;
+  // }
+  //
+  // if (cachedBinary) {
+  //   console.log('Cached binary found at', cachedBinary);
+  //   fs.createReadStream(cachedBinary).pipe(fs.createWriteStream(binaryPath));
+  //   return;
+  // }
+  //
+  // download(extensions.getBinaryUrl(), binaryPath, function(err) {
+  //   if (err) {
+  //     console.error(err);
+  //     return;
+  //   }
+  //
+  //   console.log('Binary saved to', binaryPath);
+  //
+  //   cachedBinary = path.join(cachePath, extensions.getBinaryName());
+  //
+  //   if (cachePath) {
+  //     console.log('Caching binary to', cachedBinary);
+  //
+  //     try {
+  //       mkdir.sync(path.dirname(cachedBinary));
+  //       fs.createReadStream(binaryPath)
+  //         .pipe(fs.createWriteStream(cachedBinary))
+  //         .on('error', function (err) {
+  //           console.log('Failed to cache binary:', err);
+  //         });
+  //     } catch (err) {
+  //       console.log('Failed to cache binary:', err);
+  //     }
+  //   }
+  // });
 }
 
 /**
